@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  label: MyString
+  source: MyString
+  date: 2017-04-14 08:40:20
+  answer: one
+
+two:
+  label: MyString
+  source: MyString
+  date: 2017-04-14 08:40:20
+  answer: two
