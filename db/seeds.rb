@@ -1,3 +1,20 @@
+# frozen_string_literal: true
+
+# Reset database
+User.destroy_all
+Question.destroy_all
+Answer.destroy_all
+
+# Users
+User.create([
+              {
+                firstname: 'Christoph',
+                lastname: 'Wiedenmann',
+                email: 'christoph@ag-prop.com',
+                password: '1'
+              }
+            ])
+
 q1 = Question.create(
     label: 'Bezirke von Berlin',
     date: DateTime.new(2017,4,13),
