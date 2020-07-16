@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# Question model
 class Question < ApplicationRecord
-  # RELATIONS
+  # Relation
   has_many :answers
 
   def self.search(search)
@@ -9,5 +12,9 @@ class Question < ApplicationRecord
     else
       all
     end
+  end
+
+  def url
+    Rails.application.routes.url_helpers.question_url(id)
   end
 end

@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# Answer model
 class Answer < ApplicationRecord
-  # RELATIONS
+  # Relation
   belongs_to :question
 
   def self.search(search)
@@ -10,5 +13,9 @@ class Answer < ApplicationRecord
     else
       all
     end
+  end
+
+  def url
+    Rails.application.routes.url_helpers.answer_url(id)
   end
 end

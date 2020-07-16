@@ -1,57 +1,80 @@
-class QuestionsController < ApplicationController
-  before_action :set_question, only: [:show, :update, :destroy]
+# frozen_string_literal: true
 
-  # Search
-  def search_fields
-    :label_cont
-  end
+# Controller for Questions
+class QuestionsController < ApplicationController
+  before_action :set_question, only: %i[show update destroy]
+  before_action :deserialize_params, only: %i[create update]
 
   # GET /questions
   def index
-    @questions = Question.search(params[:search])
+    authorize Question
 
-    render json: @questions
+    parent = find_parent(%w[])
+    @questions = parent ? parent.questions : Question
+
+    allowed = %i[date name guests workspaces_id]
+
+    jsonapi_filter(policy_scope(@questions), allowed) do |filtered|
+      jsonapi_paginate(filtered.result) do |paginated|
+        render jsonapi: paginated
+      end
+    end
   end
 
   # GET /questions/1
   def show
-    render json: @question
+    authorize @question
+
+    render jsonapi: @question
   end
 
   # POST /questions
   def create
-    @question = Question.new(question_params)
+    @question = Question.new(@params_deserialized)
+
+    authorize @question
 
     if @question.save
-      render json: @question, status: :created, location: @question
+      render jsonapi: @question, status: :created, location: question_url(@question)
     else
-      render json: @question.errors, status: :unprocessable_entity
+      render jsonapi_errors: @question.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /questions/1
   def update
-    if @question.update(question_params)
-      render json: @question
+    authorize @question
+
+    if @question.update(@params_deserialized)
+      render jsonapi: @question
     else
-      render json: @question.errors, status: :unprocessable_entity
+      render jsonapi_errors: @question.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /questions/1
   def destroy
+    authorize @question
+
     @question.destroy
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_question
-      @question = Question.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def question_params
-      params.require(:question).permit(:label, :source, :date, :answer_id, :search)
-      # ActiveModelSerializers::Deserialization.jsonapi_parse(params)
-    end
+  def set_question
+    id = params[:question_id] || params[:id]
+
+    @question = Question.find(id)
+  end
+
+  def deserialize_params
+    params_only = %i[artists date guests name workspaces]
+
+    @params_deserialized = jsonapi_deserialize(params, only: params_only)
+  end
+
+  # Overwrite/whitelist the includes
+  def jsonapi_include
+    super & ['artists', 'venue']
+  end
 end
