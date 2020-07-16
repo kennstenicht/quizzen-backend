@@ -10,7 +10,7 @@ module V1
     def index
       authorize Answer
 
-      parent = find_parent(%w[])
+      parent = find_parent(%w[question])
       @answers = parent ? parent.answers : Answer
 
       allowed = %i[label value information question_id]
