@@ -16,6 +16,6 @@ class Answer < ApplicationRecord
   end
 
   def url
-    Rails.application.routes.url_helpers.answer_url(id)
+    Rails.application.routes.url_helpers.v1_answer_url(id)
   end
 end

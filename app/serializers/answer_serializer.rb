@@ -7,7 +7,7 @@ class AnswerSerializer < ApplicationSerializer
   belongs_to :question, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |object|
-      url_helpers.question_url(object.id)
+      url_helpers.v1_question_url(object.id)
     end
   }
 end

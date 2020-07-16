@@ -15,6 +15,6 @@ class Question < ApplicationRecord
   end
 
   def url
-    Rails.application.routes.url_helpers.question_url(id)
+    Rails.application.routes.url_helpers.v1_question_url(id)
   end
 end
