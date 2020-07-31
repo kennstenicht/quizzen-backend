@@ -11,6 +11,12 @@ class User < ApplicationRecord
   validates :email, presence: true,
                     uniqueness: true
 
+  validates :nickname, presence: true,
+                       uniqueness: true,
+                       format: {
+                         with: /\A[a-zA-Z]+\z/,
+                         message: 'only allows letters'
+                       }
   def url
     Rails.application.routes.url_helpers.v1_user_url(id)
   end
