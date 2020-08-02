@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     post 'user_token' => 'user_token#create'
 
     resources :questions do
-      resources :answers
+      resources :answers, only: %i[index]
     end
     resources :users
   end
