@@ -1,32 +1,67 @@
 # frozen_string_literal: true
 
+require 'faker'
+
 # Reset database
+Game.destroy_all
 User.destroy_all
-Question.destroy_all
+Category.destroy_all
 Answer.destroy_all
+Question.destroy_all
 
 # Users
-User.create([
+users = User.create([
               {
                 email: 'christoph@ag-prop.com',
                 firstname: 'Christoph',
                 lastname: 'Wiedenmann',
                 nickname: 'christoph',
                 password: '1'
+              },
+              {
+                email: 'fabian@ag-prop.com',
+                firstname: 'Fabian',
+                lastname: 'Wirths',
+                nickname: 'fabian',
+                password: '1'
               }
             ])
 
-q1 = Question.create(
-                      label: 'Bezirke von Berlin',
-                      date: DateTime.new(2017, 4, 13),
-                      source: 'https://de.wikipedia.org/wiki/Berliner_Bezirke'
-                    )
+2.times do |index|
+  game = Game.create({
+                       title: 'Mein erstes Quiz',
+                       owner: users[index]
+                     })
 
-q2 = Question.create(
-                      label: 'Die längsten Flüsse in Deutschland',
-                      date: DateTime.new(2017, 4, 13),
-                      source: 'https://de.wikipedia.org/wiki/Liste_von_Fl%C3%BCssen_in_Deutschland'
-                    )
+  5.times do
+    category = Category.create({
+                                 title: Faker::Book.unique.title,
+                                 owner: users[index]
+                               })
+    game.categories << category
 
-a1 = q1.answers.create(label: 'Neukölln')
-a2 = q2.answers.create(label: 'Donau', value: '2.811')
+    5.times do
+      question = Question.create({
+                                   label: Faker::Quotes::Shakespeare.as_you_like_it_quote,
+                                   date: Faker::Date.backward(days: 365),
+                                   source: Faker::Internet.url,
+                                   owner: users[index]
+                                 })
+
+      category.questions << question
+
+      5.times do
+        answer = Answer.create({
+                                 label: Faker::Movies::HarryPotter.quote,
+                                 information: Faker::Quotes::Shakespeare.king_richard_iii_quote,
+                                 value: Faker::Number.between(
+                                   from: 1,
+                                   to:  1000000
+                                 )
+                               })
+
+        question.answers << answer
+      end
+    end
+  end
+end

@@ -51,7 +51,7 @@ class ApplicationPolicy
     end
 
     def resolve
-      scope
+      scope.where(owner: user.id)
     end
   end
 end

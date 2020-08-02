@@ -4,6 +4,7 @@
 class Question < ApplicationRecord
   # Relation
   has_many :answers
+  belongs_to :owner, class_name: 'User'
 
   def self.search(search)
     if search

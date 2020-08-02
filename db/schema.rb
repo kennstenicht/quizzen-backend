@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_19_165220) do
+ActiveRecord::Schema.define(version: 2020_07_31_131528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "answers", force: :cascade do |t|
+  create_table "answers", id: :serial, force: :cascade do |t|
     t.string "label"
     t.string "value"
     t.string "information"
@@ -25,14 +25,44 @@ ActiveRecord::Schema.define(version: 2020_04_19_165220) do
     t.index ["question_id"], name: "index_answers_on_question_id"
   end
 
-  create_table "questions", force: :cascade do |t|
+  create_table "categories", force: :cascade do |t|
+    t.string "title"
+    t.bigint "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_categories_on_owner_id"
+  end
+
+  create_table "categories_games", id: false, force: :cascade do |t|
+    t.bigint "category_id"
+    t.bigint "game_id"
+    t.index ["category_id"], name: "index_categories_games_on_category_id"
+    t.index ["game_id"], name: "index_categories_games_on_game_id"
+  end
+
+  create_table "categories_questions", id: false, force: :cascade do |t|
+    t.bigint "category_id"
+    t.bigint "question_id"
+    t.index ["category_id"], name: "index_categories_questions_on_category_id"
+    t.index ["question_id"], name: "index_categories_questions_on_question_id"
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.string "title"
+    t.bigint "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_games_on_owner_id"
+  end
+
+  create_table "questions", id: :serial, force: :cascade do |t|
     t.string "label"
     t.string "source"
     t.datetime "date"
-    t.integer "answer_id"
+    t.integer "owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["answer_id"], name: "index_questions_on_answer_id"
+    t.index ["owner_id"], name: "index_questions_on_owner_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -45,4 +75,12 @@ ActiveRecord::Schema.define(version: 2020_04_19_165220) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "answers", "questions"
+  add_foreign_key "categories", "users", column: "owner_id"
+  add_foreign_key "categories_games", "categories"
+  add_foreign_key "categories_games", "games"
+  add_foreign_key "categories_questions", "categories"
+  add_foreign_key "categories_questions", "questions"
+  add_foreign_key "games", "users", column: "owner_id"
+  add_foreign_key "questions", "users", column: "owner_id"
 end

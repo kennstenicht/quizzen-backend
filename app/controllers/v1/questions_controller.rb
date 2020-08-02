@@ -10,7 +10,7 @@ module V1
     def index
       authorize Question
 
-      parent = find_parent(%w[])
+      parent = find_parent(%w[category])
       @questions = parent ? parent.questions : Question
 
       allowed = %i[date name guests workspaces_id]

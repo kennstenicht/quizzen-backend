@@ -4,7 +4,7 @@ class CreateQuestions < ActiveRecord::Migration[5.0]
       t.string :label
       t.string :source
       t.datetime :date
-      t.references :answer, foreign_key: true
+      t.references :owner, foreign_key: { to_table: :users }
 
       t.timestamps
     end
