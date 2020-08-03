@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :v1 do
     post 'user_token' => 'user_token#create'
 
+    resources :answers
     resources :categories do
       resources :questions, only: %i[index]
       resources :users, only: %i[show]
