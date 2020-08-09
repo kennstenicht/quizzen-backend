@@ -32,6 +32,7 @@ module V1
     # POST /games
     def create
       @game = Game.new(@params_deserialized)
+      @game.owner = current_user
 
       authorize @game
 

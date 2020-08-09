@@ -33,8 +33,7 @@ module V1
     # POST /categories
     def create
       @category = Category.new(@params_deserialized)
-
-      # @category.owner = current_user;
+      @category.owner = current_user
 
       authorize @category
 

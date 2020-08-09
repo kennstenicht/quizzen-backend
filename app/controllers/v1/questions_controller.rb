@@ -32,6 +32,7 @@ module V1
     # POST /questions
     def create
       @question = Question.new(@params_deserialized)
+      @question.owner = current_user
 
       authorize @question
 
