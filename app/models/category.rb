@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Game model
+# Quiz model
 class Category < ApplicationRecord
   # Relation
   has_and_belongs_to_many :questions

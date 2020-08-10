@@ -33,13 +33,6 @@ ActiveRecord::Schema.define(version: 2020_07_31_131528) do
     t.index ["owner_id"], name: "index_categories_on_owner_id"
   end
 
-  create_table "categories_games", id: false, force: :cascade do |t|
-    t.bigint "category_id"
-    t.bigint "game_id"
-    t.index ["category_id"], name: "index_categories_games_on_category_id"
-    t.index ["game_id"], name: "index_categories_games_on_game_id"
-  end
-
   create_table "categories_questions", id: false, force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "question_id"
@@ -47,12 +40,11 @@ ActiveRecord::Schema.define(version: 2020_07_31_131528) do
     t.index ["question_id"], name: "index_categories_questions_on_question_id"
   end
 
-  create_table "games", force: :cascade do |t|
-    t.string "title"
-    t.bigint "owner_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["owner_id"], name: "index_games_on_owner_id"
+  create_table "categories_quizzes", id: false, force: :cascade do |t|
+    t.bigint "category_id"
+    t.bigint "quiz_id"
+    t.index ["category_id"], name: "index_categories_quizzes_on_category_id"
+    t.index ["quiz_id"], name: "index_categories_quizzes_on_quiz_id"
   end
 
   create_table "questions", id: :serial, force: :cascade do |t|
@@ -63,6 +55,14 @@ ActiveRecord::Schema.define(version: 2020_07_31_131528) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["owner_id"], name: "index_questions_on_owner_id"
+  end
+
+  create_table "quizzes", force: :cascade do |t|
+    t.string "title"
+    t.bigint "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_quizzes_on_owner_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -77,10 +77,10 @@ ActiveRecord::Schema.define(version: 2020_07_31_131528) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "categories", "users", column: "owner_id"
-  add_foreign_key "categories_games", "categories"
-  add_foreign_key "categories_games", "games"
   add_foreign_key "categories_questions", "categories"
   add_foreign_key "categories_questions", "questions"
-  add_foreign_key "games", "users", column: "owner_id"
+  add_foreign_key "categories_quizzes", "categories"
+  add_foreign_key "categories_quizzes", "quizzes"
   add_foreign_key "questions", "users", column: "owner_id"
+  add_foreign_key "quizzes", "users", column: "owner_id"
 end

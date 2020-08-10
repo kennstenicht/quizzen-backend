@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       resources :questions, only: %i[index]
       resources :users, only: %i[show]
     end
-    resources :games do
+    resources :quizzes do
       resources :categories, only: %i[index]
       resources :users, only: %i[show]
     end
