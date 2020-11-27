@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     end
     resources :questions do
       resources :answers, only: %i[index]
+      resources :categories, only: %i[index]
       resources :users, only: %i[show]
     end
     resources :users
