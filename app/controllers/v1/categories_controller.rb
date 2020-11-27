@@ -11,7 +11,7 @@ module V1
       puts current_user
       authorize Category
 
-      parent = find_parent(%w[quizze])
+      parent = find_parent(%w[quiz])
       @categories = parent ? parent.categories : Category
 
       allowed = %i[title questions_id]

@@ -3,7 +3,7 @@
 module V1
   # Controller for Quizzes
   class QuizzesController < ApplicationController
-    before_action :set_quizze, only: %i[show update destroy]
+    before_action :set_quiz, only: %i[show update destroy]
     before_action :deserialize_params, only: %i[create update]
 
     # GET /quizzes
@@ -24,51 +24,51 @@ module V1
 
     # GET /quizzes/1
     def show
-      authorize @quizze
+      authorize @quiz
 
-      render jsonapi: @quizze
+      render jsonapi: @quiz
     end
 
     # POST /quizzes
     def create
-      @quizze = Quiz.new(@params_deserialized)
-      @quizze.owner = current_user
+      @quiz = Quiz.new(@params_deserialized)
+      @quiz.owner = current_user
 
-      authorize @quizze
+      authorize @quiz
 
-      if @quizze.save
-        render jsonapi: @quizze,
+      if @quiz.save
+        render jsonapi: @quiz,
                status: :created,
-               location: v1_quizze_url(@quizze)
+               location: v1_quiz_url(@quiz)
       else
-        render jsonapi_errors: @quizze.errors, status: :unprocessable_entity
+        render jsonapi_errors: @quiz.errors, status: :unprocessable_entity
       end
     end
 
     # PATCH/PUT /quizzes/1
     def update
-      authorize @quizze
+      authorize @quiz
 
-      if @quizze.update(@params_deserialized)
-        render jsonapi: @quizze
+      if @quiz.update(@params_deserialized)
+        render jsonapi: @quiz
       else
-        render jsonapi_errors: @quizze.errors, status: :unprocessable_entity
+        render jsonapi_errors: @quiz.errors, status: :unprocessable_entity
       end
     end
 
     # DELETE /quizzes/1
     def destroy
-      authorize @quizze
+      authorize @quiz
 
-      @quizze.destroy
+      @quiz.destroy
     end
 
     private
 
-    def set_quizze
-      id = params[:quizze_id] || params[:id]
+    def set_quiz
+      id = params[:quiz_id] || params[:id]
 
-      @quizze = Quiz.find(id)
+      @quiz = Quiz.find(id)
     end
 
     def deserialize_params

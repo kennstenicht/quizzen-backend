@@ -7,6 +7,6 @@ class Quiz < ApplicationRecord
   belongs_to :owner, class_name: 'User'
 
   def url
-    Rails.application.routes.url_helpers.v1_quizze_url(id)
+    Rails.application.routes.url_helpers.v1_quiz_url(id)
   end
 end
