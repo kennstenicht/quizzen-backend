@@ -14,7 +14,7 @@ module V1
       parent = find_parent(%w[])
       @users = parent ? parent.users : policy_scope(User)
 
-      allowed = %i[firstname lastname email]
+      allowed = %i[firstname lastname email nickname]
 
       jsonapi_filter(policy_scope(@users), allowed) do |filtered|
         jsonapi_paginate(filtered.result) do |paginated|
