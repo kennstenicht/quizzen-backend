@@ -69,7 +69,7 @@ module V1
     end
 
     def deserialize_params
-      params_only = %i[label information value]
+      params_only = %i[label information value question]
 
       @params_deserialized = jsonapi_deserialize(params, only: params_only)
     end

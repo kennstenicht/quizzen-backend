@@ -14,7 +14,7 @@ module V1
       parent = find_parent(%w[quiz])
       @categories = parent ? parent.categories : Category
 
-      allowed = %i[title questions_id]
+      allowed = %i[title questions_id quizzes_id]
 
       jsonapi_filter(policy_scope(@categories), allowed) do |filtered|
         jsonapi_paginate(filtered.result) do |paginated|
@@ -73,7 +73,7 @@ module V1
     end
 
     def deserialize_params
-      params_only = %i[title questions]
+      params_only = %i[title questions quizzes]
 
       @params_deserialized = jsonapi_deserialize(params, only: params_only)
     end

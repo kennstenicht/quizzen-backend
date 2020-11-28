@@ -13,7 +13,7 @@ module V1
       parent = find_parent(%w[category])
       @questions = parent ? parent.questions : Question
 
-      allowed = %i[date name guests workspaces_id]
+      allowed = %i[label categories_id]
 
       jsonapi_filter(policy_scope(@questions), allowed) do |filtered|
         jsonapi_paginate(filtered.result) do |paginated|
@@ -70,7 +70,7 @@ module V1
     end
 
     def deserialize_params
-      params_only = %i[date label source]
+      params_only = %i[date label source answers categories]
 
       @params_deserialized = jsonapi_deserialize(params, only: params_only)
     end
