@@ -3,11 +3,12 @@
 require 'faker'
 
 # Reset database
-Quiz.destroy_all
-User.destroy_all
-Category.destroy_all
+Game.destroy_all
 Answer.destroy_all
 Question.destroy_all
+Category.destroy_all
+Quiz.destroy_all
+User.destroy_all
 
 # Users
 users = User.create([
@@ -28,7 +29,7 @@ users = User.create([
             ])
 
 2.times do |index|
-  quizze = Quiz.create({
+  quiz = Quiz.create({
                        title: 'Mein erstes Quiz',
                        owner: users[index]
                      })
@@ -38,7 +39,7 @@ users = User.create([
                                  title: Faker::Book.unique.title,
                                  owner: users[index]
                                })
-    quizze.categories << category
+    quiz.categories << category
 
     5.times do
       question = Question.create({
@@ -64,4 +65,14 @@ users = User.create([
       end
     end
   end
+
+  Game.create({
+                active: true,
+                title: 'Test Game',
+                password: '1',
+                quiz_master: users[index],
+                quiz: quiz,
+                players: users
+              })
+
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_31_131528) do
+ActiveRecord::Schema.define(version: 2020_12_04_144245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,25 @@ ActiveRecord::Schema.define(version: 2020_07_31_131528) do
     t.index ["quiz_id"], name: "index_categories_quizzes_on_quiz_id"
   end
 
+  create_table "games", force: :cascade do |t|
+    t.string "title"
+    t.boolean "active"
+    t.string "password_digest"
+    t.bigint "quiz_id"
+    t.bigint "quiz_master_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quiz_id"], name: "index_games_on_quiz_id"
+    t.index ["quiz_master_id"], name: "index_games_on_quiz_master_id"
+  end
+
+  create_table "games_users", id: false, force: :cascade do |t|
+    t.bigint "game_id"
+    t.bigint "user_id"
+    t.index ["game_id"], name: "index_games_users_on_game_id"
+    t.index ["user_id"], name: "index_games_users_on_user_id"
+  end
+
   create_table "questions", id: :serial, force: :cascade do |t|
     t.string "label"
     t.string "source"
@@ -81,6 +100,10 @@ ActiveRecord::Schema.define(version: 2020_07_31_131528) do
   add_foreign_key "categories_questions", "questions"
   add_foreign_key "categories_quizzes", "categories"
   add_foreign_key "categories_quizzes", "quizzes"
+  add_foreign_key "games", "quizzes"
+  add_foreign_key "games", "users", column: "quiz_master_id"
+  add_foreign_key "games_users", "games"
+  add_foreign_key "games_users", "users"
   add_foreign_key "questions", "users", column: "owner_id"
   add_foreign_key "quizzes", "users", column: "owner_id"
 end

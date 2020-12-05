@@ -11,14 +11,14 @@ module V1
     def index
       authorize User
 
-      parent = find_parent(%w[])
-      @users = parent ? parent.users : policy_scope(User)
+      game = find_parent(%w[game])
+      users = game ? game.players : policy_scope(User)
 
       allowed = %i[firstname lastname email nickname]
 
-      jsonapi_filter(policy_scope(@users), allowed) do |filtered|
+      jsonapi_filter(policy_scope(users), allowed) do |filtered|
         jsonapi_paginate(filtered.result) do |paginated|
-          render jsonapi: paginated
+          render jsonapi: paginated, options: { params: { current_user: current_user }}
         end
       end
     end
@@ -26,6 +26,7 @@ module V1
     # GET /users/1
     def show
       authorize @user
+      # @user.current_user = current_user.id == @user.id if current_user
 
       render jsonapi: @user
     end
@@ -33,8 +34,6 @@ module V1
     # POST /users
     def create
       @user = User.new(@params_deserialized)
-
-      @user.workspaces.push(@invite.workspace) if @invite
 
       authorize @user
 
@@ -71,17 +70,16 @@ module V1
       @user = User.find(id)
     end
 
-    def set_invite
-      token = params[:data][:attributes][:'invite-token']
-      email = params[:data][:attributes][:email]
-
-      @invite = Invite.find_by(token: token, email: email) if token && email
-    end
-
     def deserialize_params
-      params_only = %i[email firstname lastname password workspaces]
+      params_only = %i[email firstname lastname password]
 
       @params_deserialized = jsonapi_deserialize(params, only: params_only)
+    end
+
+    def jsonapi_serializer_params
+      {
+        current_user: current_user
+      }
     end
   end
 end

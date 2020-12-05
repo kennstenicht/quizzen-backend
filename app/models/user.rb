@@ -17,6 +17,10 @@ class User < ApplicationRecord
                          with: /\A[a-zA-Z]+\z/,
                          message: 'only allows letters'
                        }
+
+  # Relation
+  has_and_belongs_to_many :games
+
   def url
     Rails.application.routes.url_helpers.v1_user_url(id)
   end
