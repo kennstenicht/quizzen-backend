@@ -10,12 +10,12 @@ module V1
     def index
       authorize Quiz
 
-      parent = find_parent(%w[])
-      @quizzes = parent ? parent.quizzes : Quiz
+      parent = find_parent(%w[game])
+      quizzes = parent ? parent.quizzes : Quiz
 
       allowed = %i[title categories_id]
 
-      jsonapi_filter(policy_scope(@quizzes), allowed) do |filtered|
+      jsonapi_filter(policy_scope(quizzes), allowed) do |filtered|
         jsonapi_paginate(filtered.result) do |paginated|
           render jsonapi: paginated
         end

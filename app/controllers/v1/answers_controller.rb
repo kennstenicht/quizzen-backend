@@ -11,11 +11,11 @@ module V1
       authorize Answer
 
       parent = find_parent(%w[question])
-      @answers = parent ? parent.answers : Answer
+      answers = parent ? parent.answers : Answer
 
       allowed = %i[label value information question_id]
 
-      jsonapi_filter(policy_scope(@answers), allowed) do |filtered|
+      jsonapi_filter(policy_scope(answers), allowed) do |filtered|
         jsonapi_paginate(filtered.result) do |paginated|
           render jsonapi: paginated
         end

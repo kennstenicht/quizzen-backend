@@ -12,11 +12,11 @@ module V1
       authorize Category
 
       parent = find_parent(%w[quiz])
-      @categories = parent ? parent.categories : Category
+      categories = parent ? parent.categories : Category
 
       allowed = %i[title questions_id quizzes_id]
 
-      jsonapi_filter(policy_scope(@categories), allowed) do |filtered|
+      jsonapi_filter(policy_scope(categories), allowed) do |filtered|
         jsonapi_paginate(filtered.result) do |paginated|
           render jsonapi: paginated
         end

@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
-# Quiz model
+# Category model
 class Category < ApplicationRecord
+  # Validations
+  validates :title, presence: true
+
   # Relation
   has_and_belongs_to_many :questions
   has_and_belongs_to_many :quizzes

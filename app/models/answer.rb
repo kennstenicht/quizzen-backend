@@ -2,20 +2,13 @@
 
 # Answer model
 class Answer < ApplicationRecord
+  # Validations
+  validates :label, presence: true
+
   # Relation
   belongs_to :question
 
-  def self.search(search)
-    if search
-      where('label LIKE ?', "%#{search}%")
-      where('value LIKE ?', "%#{search}%")
-      where('information LIKE ?', "%#{search}%")
-    else
-      all
-    end
-  end
-
   def url
-    Rails.application.routes.url_helpers.v1_question_answers_url(question.id, id)
+    Rails.application.routes.url_helpers.v1_answers_url(id)
   end
 end

@@ -23,7 +23,7 @@ class ApplicationController < ActionController::API
   def find_parent(klasses)
     klass = klasses.detect { |pk| params[:"#{pk}_id"].present? }
 
-    @scope = klass.camelize.constantize.find(params[:"#{klass}_id"]) if klass
+    klass.camelize.constantize.find(params[:"#{klass}_id"]) if klass
   end
 
   def jsonapi_meta(resources)
