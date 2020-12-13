@@ -12,6 +12,12 @@ class Game < ApplicationRecord
   belongs_to :quiz
   belongs_to :quiz_master, class_name: 'User'
 
+  # Scopes
+  scope :active, -> { where(active: true) }
+  scope :quiz_master_is, ->(user) { where(quiz_master: user.id) }
+  scope :player_is, ->(user) { where(quiz_master: user.id) }
+
+  # Ransack
   ransack_alias :quiz_master, :quiz_master_id_or_quiz_master_nickname
 
   def url
