@@ -18,7 +18,7 @@ module V1
 
       jsonapi_filter(policy_scope(users), allowed) do |filtered|
         jsonapi_paginate(filtered.result) do |paginated|
-          render jsonapi: paginated, options: { params: { current_user: current_user }}
+          render jsonapi: paginated
         end
       end
     end
