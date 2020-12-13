@@ -3,7 +3,7 @@
 module V1
   # Controller for games
   class GamesController < ApplicationController
-    before_action :set_game, only: %i[show update destroy]
+    before_action :set_game, only: %i[show update destroy join]
     before_action :deserialize_params, only: %i[create update]
 
     # GET /games
@@ -59,6 +59,15 @@ module V1
       authorize @game
 
       @game.destroy
+    end
+
+    def join
+      authorize @game
+
+      user = current_user
+      @game.players.push(user) unless @game.players.include?(user)
+
+      render jsonapi: @game
     end
 
     private

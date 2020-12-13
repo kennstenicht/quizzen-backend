@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :games do
       resources :users, only: %i[index show]
       resources :quizzes, only: %i[show]
+      get 'join', to: 'games#join'
     end
     resources :quizzes do
       resources :games, only: %i[index]

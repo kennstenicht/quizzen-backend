@@ -10,6 +10,10 @@ class GamePolicy < ApplicationPolicy
     scope.where(id: record.id).exists?
   end
 
+  def join?
+    true
+  end
+
   # Custom user scope
   class Scope < Scope
     def resolve
