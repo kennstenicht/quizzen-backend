@@ -72,7 +72,7 @@ module V1
     end
 
     def deserialize_params
-      params_only = %i[title categories]
+      params_only = %i[id title categories]
 
       @params_deserialized = jsonapi_deserialize(params, only: params_only)
     end

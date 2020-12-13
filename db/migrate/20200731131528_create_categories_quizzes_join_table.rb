@@ -1,8 +1,8 @@
-class CreateCategoriesQuizzesJoinTable < ActiveRecord::Migration[5.2]
+class CreateCategoriesQuizzesJoinTable < ActiveRecord::Migration[6.1]
   def change
-    create_join_table :categories, :quizzes do |t|
-      t.references :category, foreign_key: true
-      t.references :quiz, foreign_key: true
+    create_table :categories_quizzes, id: :uuid do |t|
+      t.references :category, foreign_key: true, type: :uuid
+      t.references :quiz, foreign_key: true, type: :uuid
     end
   end
 end

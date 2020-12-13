@@ -1,8 +1,8 @@
-class CreateGamesUserJoinTable < ActiveRecord::Migration[5.2]
+class CreateGamesUserJoinTable < ActiveRecord::Migration[6.1]
   def change
-    create_join_table :games, :users do |t|
-      t.references :game, foreign_key: true
-      t.references :user, foreign_key: true
+    create_table :games_users, id: :uuid do |t|
+      t.references :game, foreign_key: true, type: :uuid
+      t.references :user, foreign_key: true, type: :uuid
     end
   end
 end

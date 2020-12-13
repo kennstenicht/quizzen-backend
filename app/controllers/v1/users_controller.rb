@@ -71,7 +71,7 @@ module V1
     end
 
     def deserialize_params
-      params_only = %i[email firstname lastname password]
+      params_only = %i[id email firstname lastname password]
 
       @params_deserialized = jsonapi_deserialize(params, only: params_only)
     end

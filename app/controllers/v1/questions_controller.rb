@@ -70,7 +70,7 @@ module V1
     end
 
     def deserialize_params
-      params_only = %i[date label source answers categories]
+      params_only = %i[id date label source answers categories]
 
       @params_deserialized = jsonapi_deserialize(params, only: params_only)
     end

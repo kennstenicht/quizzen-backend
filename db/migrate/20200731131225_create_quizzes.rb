@@ -1,8 +1,8 @@
-class CreateQuizzes < ActiveRecord::Migration[5.2]
+class CreateQuizzes < ActiveRecord::Migration[6.1]
   def change
-    create_table :quizzes do |t|
+    create_table :quizzes, id: :uuid do |t|
       t.string :title
-      t.references :owner, foreign_key: { to_table: :users }
+      t.references :owner, foreign_key: { to_table: :users }, type: :uuid
 
       t.timestamps
     end
