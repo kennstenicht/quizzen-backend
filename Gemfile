@@ -8,7 +8,7 @@ ruby '2.5.1'
 # Rails and database
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.7'
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 6.1.0'
 
 # API
 gem 'jsonapi.rb'
