@@ -8,6 +8,10 @@ class GameSerializer < ApplicationSerializer
     record.players.include?(params[:current_user])
   end
 
+  attribute :your_game do |record, params|
+    record.quiz_master === params[:current_user]
+  end
+
   belongs_to :quiz, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |record|
