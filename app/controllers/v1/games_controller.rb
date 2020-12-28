@@ -3,8 +3,9 @@
 module V1
   # Controller for games
   class GamesController < ApplicationController
-    before_action :set_game, only: %i[show update destroy join]
+    before_action :set_game, only: %i[show update destroy]
     before_action :deserialize_params, only: %i[create update]
+    after_action :notify_clients, only: %i[update]
 
     # GET /games
     def index
@@ -61,16 +62,11 @@ module V1
       @game.destroy
     end
 
-    def join
-      authorize @game
-
-      user = current_user
-      @game.players.push(user) unless @game.players.include?(user)
-
-      render jsonapi: @game
-    end
-
     private
+
+    def notify_clients
+      GamesChannel.broadcast_to(@game, @game)
+    end
 
     def set_game
       id = params[:game_id] || params[:id]
@@ -82,6 +78,12 @@ module V1
       params_only = %i[id title password quiz_master quiz]
 
       @params_deserialized = jsonapi_deserialize(params, only: params_only)
+    end
+
+    def jsonapi_serializer_params
+      {
+        current_user: current_user
+      }
     end
   end
 end
