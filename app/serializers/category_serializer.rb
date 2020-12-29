@@ -2,8 +2,11 @@
 
 # Serializer for categories
 class CategorySerializer < ApplicationSerializer
+  # Attributes
   attributes :title
 
+
+  # Relations
   has_many :questions, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |object|

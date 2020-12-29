@@ -2,6 +2,7 @@
 
 # Serializer for venues
 class UserSerializer < ApplicationSerializer
+  # Attributes
   attributes :nickname, :firstname, :lastname
 
   attribute :email, if: proc { |record, params|

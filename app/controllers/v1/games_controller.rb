@@ -85,5 +85,9 @@ module V1
         current_user: current_user
       }
     end
+
+    def jsonapi_include
+      ['game_questions', 'quiz']
+    end
   end
 end

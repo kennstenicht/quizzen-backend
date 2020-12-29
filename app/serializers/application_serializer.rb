@@ -2,6 +2,7 @@
 
 # Base application Serializer
 class ApplicationSerializer
+  # Concerns
   include FastJsonapi::ObjectSerializer
   include UrlHelpers
 

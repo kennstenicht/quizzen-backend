@@ -8,6 +8,7 @@ class Game < ApplicationRecord
   validates :title, presence: true
 
   # Relation
+  has_many :game_questions
   has_and_belongs_to_many :players, class_name: 'User'
   belongs_to :quiz
   belongs_to :quiz_master, class_name: 'User'
@@ -15,7 +16,7 @@ class Game < ApplicationRecord
   # Scopes
   scope :active, -> { where(active: true) }
   scope :quiz_master_is, ->(user) { where(quiz_master: user.id) }
-  scope :player_is, ->(user) { where(quiz_master: user.id) }
+  scope :player_is, ->(user) { where(users: { id: user.id }) }
 
   # Ransack
   ransack_alias :quiz_master, :quiz_master_id_or_quiz_master_nickname

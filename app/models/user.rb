@@ -20,6 +20,7 @@ class User < ApplicationRecord
 
   # Relation
   has_and_belongs_to_many :games
+  has_and_belongs_to_many :teams
 
   def url
     Rails.application.routes.url_helpers.v1_user_url(id)

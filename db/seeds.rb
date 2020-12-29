@@ -3,6 +3,10 @@
 require 'csv'
 
 # Reset database
+Team.destroy_all
+SelfAssessment.destroy_all
+GameAnswer.destroy_all
+GameQuestion.destroy_all
 Game.destroy_all
 Answer.destroy_all
 Question.destroy_all
@@ -99,6 +103,53 @@ if File.exist?(quizzen_path)
             end
           end
         end
+      end
+
+      game = Game.create({
+        active: true,
+        title: "#{owner.firstname}s erstes Game",
+        password: '1',
+        quiz_master: owner,
+        quiz: quiz,
+        players: users
+      })
+
+      2.times do |team_index|
+        team = Team.create({
+          name: "#{game.title} — Team #{team_index}",
+          game: game
+        })
+
+        team.users << users[team_index*2]
+        team.users << users[team_index*2+1]
+      end
+
+      game_question = GameQuestion.create({
+        question: game.quiz.categories.sample.questions.sample,
+        game: game
+      })
+
+      users.each do |user|
+        self_assessment = SelfAssessment.create({
+          game_question: game_question,
+          user: user,
+          assessment: rand(1..game_question.question.answers.length)
+        })
+
+        game_question.self_assessments << self_assessment
+      end
+
+
+      5.times do
+        randomUser = game.players.sample
+        game_answer = GameAnswer.create({
+          user: randomUser,
+          answer: game_question.question.answers.sample,
+          game_question: game_question
+        })
+
+        game_question.winner = randomUser
+        game_question.game_answers << game_answer
       end
     end
   end

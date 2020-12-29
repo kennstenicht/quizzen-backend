@@ -10,7 +10,7 @@ module V1
     def index
       authorize Quiz
 
-      parent = find_parent(%w[game])
+      parent = find_parent(%w[category])
       quizzes = parent ? parent.quizzes : Quiz
 
       allowed = %i[title categories_id]
