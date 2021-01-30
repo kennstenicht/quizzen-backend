@@ -13,12 +13,9 @@ class ApplicationController < ActionController::API
   after_action :verify_policy_scoped, only: :index
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   private
-
-  def user_not_authorized
-    head :forbidden
-  end
 
   def find_parent(klasses)
     klass = klasses.detect { |pk| params[:"#{pk}_id"].present? }
@@ -37,5 +34,27 @@ class ApplicationController < ActionController::API
     end
 
     meta
+  end
+
+  def user_not_authorized(exception)
+    render jsonapi_errors: [
+      {
+        status: 403,
+        title: 'Forbidden',
+        detail: exception
+      }
+    ],
+    status: :forbidden
+  end
+
+  def not_found(exception)
+    render jsonapi_errors: [
+      {
+        status: 404,
+        title: "Record not found",
+        detail: exception
+      }
+    ],
+    status: :not_found
   end
 end
