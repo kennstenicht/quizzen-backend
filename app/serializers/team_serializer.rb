@@ -10,14 +10,14 @@ class TeamSerializer < ApplicationSerializer
   belongs_to :game, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |record|
-      url_helpers.v1_self_assessment_game_url(record.id, record.game.id)
+      url_helpers.v1_team_game_url(record.id, record.game.id)
     end
   }
 
-  has_many :user, lazy_load_data: true, links: {
+  has_many :users, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |record|
-      url_helpers.v1_self_assessment_users_url(record.id)
+      url_helpers.v1_team_users_url(record.id)
     end
   }
 end

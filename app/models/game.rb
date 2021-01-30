@@ -12,6 +12,7 @@ class Game < ApplicationRecord
   has_and_belongs_to_many :users
   belongs_to :quiz
   belongs_to :quiz_master, class_name: 'User'
+  has_many :teams
 
   # Scopes
   scope :active, -> { where(active: true) }
