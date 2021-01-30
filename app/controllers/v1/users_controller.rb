@@ -26,7 +26,6 @@ module V1
     # GET /users/1
     def show
       authorize @user
-      # @user.current_user = current_user.id == @user.id if current_user
 
       render jsonapi: @user
     end
