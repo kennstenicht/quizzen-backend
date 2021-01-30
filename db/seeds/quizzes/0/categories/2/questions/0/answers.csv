@@ -1,13 +1,21 @@
-label;value;information
-Bezirk Mitte (Tiergarten, Wedding);1;
-Bezirk Friedrichshain-Kreuzberg;2;
-Bezirk Pankow (Prenzlauer Berg, Weißensee);3;
-Bezirk Charlottenburg-Wilmersdorf;4;
-Bezirk Spandau;5;
-Bezirk Steglitz-Zehlendorf;6;
-Bezirk Tempelhof-Schöneberg;7;
-Bezirk Neukölln;8;
-Bezirk Treptow-Köpenick;9;
-Bezirk Marzahn-Hellersdorf;10;
-Bezirk Lichtenberg (Hohenschönhausen);11;
-Bezirk Reinickendorf;12;
+label;value;information;
+Berlin;3.375.222;
+Hamburg;1.734.272;
+München;1.388.308;
+Köln;1.024.373;
+Frankfurt am Main;687.775;
+Stuttgart;597.939;
+Düsseldorf;593.682;
+Dortmund;572.087;
+Essen;566.862;
+Bremen;546.451;
+Dresden;525.105;
+Leipzig;520.838;
+Hannover;514.137;
+Nürnberg;495.121;
+Duisburg;486.816;
+Bochum;362.213;
+Wuppertal;342.885;
+Bielefeld;328.314;
+Bonn;309.869;
+Münster;296.599
