@@ -9,7 +9,7 @@ class Game < ApplicationRecord
 
   # Relation
   has_many :game_questions
-  has_and_belongs_to_many :players, class_name: 'User'
+  has_and_belongs_to_many :users
   belongs_to :quiz
   belongs_to :quiz_master, class_name: 'User'
 

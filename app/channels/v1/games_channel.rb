@@ -16,7 +16,7 @@ class V1::GamesChannel < ApplicationCable::Channel
   end
 
   def join()
-    @game.players.push(current_user) unless @game.players.include?(current_user)
+    @game.users.push(current_user) unless @game.users.include?(current_user)
 
     broadcast_to(@game, @game)
   end

@@ -14,7 +14,13 @@ class GamePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       if user
-        scope.joins(:players).active.or(scope.quiz_master_is(user)).or(scope.player_is(user))
+        scope.includes(:users)
+          .where(
+            'active=true OR quiz_master_id=? OR users.id=?',
+            user.id,
+            user.id
+          )
+          .references(:users)
       else
         scope.active
       end

@@ -14,7 +14,7 @@ module V1
       parent = find_parent(%w[quiz])
       games = parent ? parent.games : policy_scope(Game)
 
-      allowed = %i[quiz_master]
+      allowed = %i[quiz_master active]
 
       jsonapi_filter(policy_scope(games), allowed) do |filtered|
         jsonapi_paginate(filtered.result) do |paginated|
@@ -75,7 +75,7 @@ module V1
     end
 
     def deserialize_params
-      params_only = %i[id title password quiz_master quiz]
+      params_only = %i[active id password users quiz_master quiz title]
 
       @params_deserialized = jsonapi_deserialize(params, only: params_only)
     end

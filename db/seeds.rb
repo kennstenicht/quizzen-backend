@@ -111,7 +111,7 @@ if File.exist?(quizzen_path)
         password: '1',
         quiz_master: owner,
         quiz: quiz,
-        players: users
+        users: users
       })
 
       2.times do |team_index|
@@ -141,7 +141,7 @@ if File.exist?(quizzen_path)
 
 
       5.times do
-        randomUser = game.players.sample
+        randomUser = game.users.sample
         game_answer = GameAnswer.create({
           user: randomUser,
           answer: game_question.question.answers.sample,

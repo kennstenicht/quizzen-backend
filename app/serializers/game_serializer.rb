@@ -6,7 +6,7 @@ class GameSerializer < ApplicationSerializer
   attributes :title, :active
 
   attribute :joined do |record, params|
-    record.players.include?(params[:current_user])
+    record.users.include?(params[:current_user])
   end
 
   attribute :your_game do |record, params|
@@ -31,13 +31,13 @@ class GameSerializer < ApplicationSerializer
     end
   }
 
-  has_many :players, lazy_load_data: true, links: {
+  has_many :users, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |record|
       url_helpers.v1_game_users_url(record.id)
     end
   }, if: proc { |record, params|
-    is_player = record.players.include?(params[:current_user])
+    is_player = record.users.include?(params[:current_user])
     is_quiz_master = record.quiz_master === params[:current_user]
 
     params[:current_user] && (is_player || is_quiz_master)
@@ -49,7 +49,11 @@ class GameSerializer < ApplicationSerializer
       url_helpers.v1_game_game_questions_url(record.id)
     end
   }, if: proc { |record, params|
-    is_player = record.players.include?(params[:current_user])
+    is_player = record.users.include?(params[:current_user])
+    is_quiz_master = record.quiz_master === params[:current_user]
+
+    params[:current_user] && (is_player || is_quiz_master)
+  }
     is_quiz_master = record.quiz_master === params[:current_user]
 
     params[:current_user] && (is_player || is_quiz_master)
