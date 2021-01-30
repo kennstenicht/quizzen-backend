@@ -11,8 +11,8 @@ module V1
     def index
       authorize User
 
-      game = find_parent(%w[game team])
-      users = game ? game.players : policy_scope(User)
+      parent = find_parent(%w[game team])
+      users = parent ? parent.users : policy_scope(User)
 
       allowed = %i[firstname lastname email nickname]
 
