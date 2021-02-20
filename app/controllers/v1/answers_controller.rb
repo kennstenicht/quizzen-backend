@@ -13,7 +13,7 @@ module V1
       parent = find_parent(%w[question])
       answers = parent ? parent.answers : Answer
 
-      allowed = %i[label value information question_id]
+      allowed = %i[label value information question_id search]
 
       jsonapi_filter(policy_scope(answers), allowed) do |filtered|
         jsonapi_paginate(filtered.result) do |paginated|

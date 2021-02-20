@@ -13,7 +13,7 @@ module V1
       parent = find_parent(%w[game_question])
       game_answers = parent ? parent.game_answers : policy_scope(GameAnswer)
 
-      allowed = %i[quiz_master]
+      allowed = %i[quiz_master search]
 
       jsonapi_filter(policy_scope(game_answers), allowed) do |filtered|
         jsonapi_paginate(filtered.result) do |paginated|

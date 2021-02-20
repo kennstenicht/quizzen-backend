@@ -13,7 +13,7 @@ module V1
       parent = find_parent(%w[category])
       questions = parent ? parent.questions : Question
 
-      allowed = %i[label categories_id]
+      allowed = %i[label categories_id search]
 
       jsonapi_filter(policy_scope(questions), allowed) do |filtered|
         jsonapi_paginate(filtered.result) do |paginated|

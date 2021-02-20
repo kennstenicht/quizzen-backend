@@ -21,6 +21,7 @@ class Game < ApplicationRecord
 
   # Ransack
   ransack_alias :quiz_master, :quiz_master_id_or_quiz_master_nickname
+  ransack_alias :search, :title_or_quiz_master_nickname
 
   def url
     Rails.application.routes.url_helpers.v1_game_url(id)
