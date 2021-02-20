@@ -26,11 +26,16 @@ class ApplicationController < ActionController::API
   def jsonapi_meta(resources)
     meta = {}
     pagination = jsonapi_pagination_meta(resources)
+    _, limit = jsonapi_pagination_params
 
     meta[:pagination] = pagination if pagination.present?
 
     if resources.respond_to?(:unscope)
-      meta[:total] = resources.unscope(:limit, :offset).count
+      total_records = resources.unscope(:limit, :offset).count
+      total_pages = [1, (total_records.to_f / limit.to_f).ceil].max
+
+      meta[:pagination][:records] = total_records
+      meta[:pagination][:pages] = total_pages
     end
 
     meta
