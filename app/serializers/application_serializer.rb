@@ -7,7 +7,7 @@ class ApplicationSerializer
   include UrlHelpers
 
   # Key transform
-  set_key_transform :dash
+  set_key_transform :underscore
 
   # Global meta fields
   attributes :created_at, :updated_at
