@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Serializer for events
+# Serializer for question
 class QuestionSerializer < ApplicationSerializer
   # Attributes
   attributes :id, :label, :source, :date

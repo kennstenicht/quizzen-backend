@@ -70,7 +70,7 @@ module V1
     end
 
     def deserialize_params
-      params_only = %i[game game_answers question winner]
+      params_only = %i[game game_answers guess_question question winner]
 
       @params_deserialized = jsonapi_deserialize(params, only: params_only)
     end

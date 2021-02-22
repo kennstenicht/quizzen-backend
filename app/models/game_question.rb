@@ -5,6 +5,7 @@ class GameQuestion < ApplicationRecord
   # Relation
   has_many :game_answers
   belongs_to :game
+  belongs_to :guess_question, optional: true
   belongs_to :question
   has_many :self_assessments
   belongs_to :winner, class_name: 'User'

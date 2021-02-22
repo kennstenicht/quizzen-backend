@@ -17,6 +17,15 @@ class GameQuestionSerializer < ApplicationSerializer
     end
   }
 
+  belongs_to :guess_question, lazy_load_data: true, links: {
+    self: :url,
+    related: lambda do |record|
+      url_helpers.v1_game_question_guess_question_url(record.id, record.guess_question.id)
+    end
+  }, if: proc { |record, params|
+    record.guess_question
+  }
+
   belongs_to :question, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |record|

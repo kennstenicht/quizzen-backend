@@ -18,15 +18,22 @@ Rails.application.routes.draw do
     resources :game_questions do
       resources :games, only: %i[show]
       resources :game_answers, only: %i[index]
+      resources :guess_questions, only: %i[show]
       resources :questions, only: %i[show]
       resources :self_assessments, only: %i[index]
       resources :users, only: %i[show]
     end
     resources :games do
       resources :game_questions, only: %i[index]
+      resources :guess_questions, only: %i[show]
       resources :quizzes, only: %i[show]
       resources :users, only: %i[index show]
       resources :teams, only: %i[index]
+    end
+    resources :guess_questions do
+      resources :games, only: %i[index]
+      resources :game_questions, only: %i[index]
+      resources :users, only: %i[show]
     end
     resources :quizzes do
       resources :games, only: %i[index]

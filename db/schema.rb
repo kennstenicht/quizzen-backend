@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_29_074833) do
+ActiveRecord::Schema.define(version: 2021_02_21_074711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -66,7 +66,9 @@ ActiveRecord::Schema.define(version: 2020_12_29_074833) do
     t.uuid "winner_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.uuid "guess_question_id"
     t.index ["game_id"], name: "index_game_questions_on_game_id"
+    t.index ["guess_question_id"], name: "index_game_questions_on_guess_question_id"
     t.index ["question_id"], name: "index_game_questions_on_question_id"
     t.index ["winner_id"], name: "index_game_questions_on_winner_id"
   end
@@ -79,6 +81,8 @@ ActiveRecord::Schema.define(version: 2020_12_29_074833) do
     t.uuid "quiz_master_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.uuid "guess_question_id"
+    t.index ["guess_question_id"], name: "index_games_on_guess_question_id"
     t.index ["quiz_id"], name: "index_games_on_quiz_id"
     t.index ["quiz_master_id"], name: "index_games_on_quiz_master_id"
   end
@@ -88,6 +92,18 @@ ActiveRecord::Schema.define(version: 2020_12_29_074833) do
     t.uuid "user_id"
     t.index ["game_id"], name: "index_games_users_on_game_id"
     t.index ["user_id"], name: "index_games_users_on_user_id"
+  end
+
+  create_table "guess_questions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.float "answer"
+    t.string "unit"
+    t.datetime "date"
+    t.string "label"
+    t.string "source"
+    t.uuid "owner_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["owner_id"], name: "index_guess_questions_on_owner_id"
   end
 
   create_table "questions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -153,12 +169,15 @@ ActiveRecord::Schema.define(version: 2020_12_29_074833) do
   add_foreign_key "game_answers", "game_questions"
   add_foreign_key "game_answers", "users"
   add_foreign_key "game_questions", "games"
+  add_foreign_key "game_questions", "guess_questions"
   add_foreign_key "game_questions", "questions"
   add_foreign_key "game_questions", "users", column: "winner_id"
+  add_foreign_key "games", "guess_questions"
   add_foreign_key "games", "quizzes"
   add_foreign_key "games", "users", column: "quiz_master_id"
   add_foreign_key "games_users", "games"
   add_foreign_key "games_users", "users"
+  add_foreign_key "guess_questions", "users", column: "owner_id"
   add_foreign_key "questions", "users", column: "owner_id"
   add_foreign_key "quizzes", "users", column: "owner_id"
   add_foreign_key "self_assessments", "game_questions"
