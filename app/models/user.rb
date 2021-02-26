@@ -19,8 +19,10 @@ class User < ApplicationRecord
                        }
 
   # Relation
-  has_and_belongs_to_many :games
-  has_and_belongs_to_many :teams
+  has_many :games_users, dependent: :destroy
+  has_many :games, through: :games_users
+  has_many :teams_users, dependent: :destroy
+  has_many :teams, through: :teams_users
 
   def url
     Rails.application.routes.url_helpers.v1_user_url(id)

@@ -10,7 +10,8 @@ class Game < ApplicationRecord
   # Relation
   has_many :game_questions
   belongs_to :guess_question, optional: true
-  has_and_belongs_to_many :users
+  has_many :games_users, dependent: :destroy
+  has_many :users, through: :games_users
   belongs_to :quiz
   belongs_to :quiz_master, class_name: 'User'
   has_many :teams

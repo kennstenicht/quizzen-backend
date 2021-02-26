@@ -7,7 +7,8 @@ class Question < ApplicationRecord
 
   # Relation
   has_many :answers
-  has_and_belongs_to_many :categories
+  has_many :categories_questions, dependent: :destroy
+  has_many :categories, through: :categories_questions
   belongs_to :owner, class_name: 'User'
 
   # Ransack

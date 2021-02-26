@@ -6,8 +6,10 @@ class Category < ApplicationRecord
   validates :title, presence: true
 
   # Relation
-  has_and_belongs_to_many :questions
-  has_and_belongs_to_many :quizzes
+  has_many :categories_questions, dependent: :destroy
+  has_many :questions, through: :categories_questions
+  has_many :categories_quizzes, dependent: :destroy
+  has_many :quizzes, through: :categories_quizzes
   belongs_to :owner, class_name: 'User'
 
   # Ransack
