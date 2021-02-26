@@ -3,6 +3,7 @@
 require 'csv'
 
 # Reset database
+GuessQuestion.destroy_all
 Team.destroy_all
 SelfAssessment.destroy_all
 GameAnswer.destroy_all
@@ -46,9 +47,27 @@ users = User.create([
   },
 ])
 
-quizzen_path = Rails.root.join('db', 'seeds', 'quizzes.csv')
-if File.exist?(quizzen_path)
-  quizzes_csv = CSV.parse(File.read(quizzen_path), headers: true, encoding: 'UTF-8', col_sep: ';')
+guess_questions_path = Rails.root.join('db', 'seeds', 'guess_questions.csv')
+if File.exist?(guess_questions_path)
+  guess_questions_csv = CSV.parse(File.read(guess_questions_path), headers: true, encoding: 'UTF-8', col_sep: ';')
+
+  guess_questions_csv.each_with_index do |guess_question, guess_question_index|
+    owner = users[0]
+
+    quiz = GuessQuestion.create({
+      label: guess_question['label'],
+      answer: guess_question['answer'],
+      unit: guess_question['unit'],
+      date: guess_question['date'],
+      source: guess_question['source'],
+      owner: owner
+    })
+  end
+end
+
+quizzes_path = Rails.root.join('db', 'seeds', 'quizzes.csv')
+if File.exist?(quizzes_path)
+  quizzes_csv = CSV.parse(File.read(quizzes_path), headers: true, encoding: 'UTF-8', col_sep: ';')
 
   quizzes_csv.each_with_index do |quiz_row, quiz_index|
     owner = users[quiz_index]
