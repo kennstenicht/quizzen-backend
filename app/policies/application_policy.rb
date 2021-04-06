@@ -51,7 +51,7 @@ class ApplicationPolicy
     end
 
     def resolve
-      scope.where(owner: user.id)
+      scope.where(owner: user.id).order(:created_at)
     end
   end
 end
