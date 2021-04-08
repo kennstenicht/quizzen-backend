@@ -8,7 +8,7 @@ class Game < ApplicationRecord
   validates :title, presence: true
 
   # Relation
-  has_many :game_questions
+  has_many :played_questions
   belongs_to :guess_question, optional: true
   has_many :games_users, dependent: :destroy
   has_many :users, through: :games_users

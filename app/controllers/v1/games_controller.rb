@@ -75,7 +75,7 @@ module V1
     end
 
     def deserialize_params
-      params_only = %i[id active title password quiz_master quiz guess_question]
+      params_only = %i[id active title password quiz_master quiz guess_question users played_questions]
 
       @params_deserialized = jsonapi_deserialize(params, only: params_only)
     end
@@ -87,7 +87,7 @@ module V1
     end
 
     def jsonapi_include
-      ['game_questions', 'quiz']
+      ['played_questions', 'quiz']
     end
   end
 end

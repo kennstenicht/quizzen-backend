@@ -7,10 +7,10 @@ class SelfAssessmentSerializer < ApplicationSerializer
 
 
   # Relations
-  belongs_to :game_question, lazy_load_data: true, links: {
+  belongs_to :played_question, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |record|
-      url_helpers.v1_self_assessment_game_question_url(record.id, record.game_question.id)
+      url_helpers.v1_self_assessment_played_question_url(record.id, record.played_question.id)
     end
   }
 

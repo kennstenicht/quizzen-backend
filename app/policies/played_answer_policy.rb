@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-# Game answer policy
-class GameAnswerPolicy < ApplicationPolicy
+# Played answer policy
+class PlayedAnswerPolicy < ApplicationPolicy
   # Custom game answer scope
   class Scope < Scope
     def resolve
-      scope.joins(game_question: [:game]).where(game_question: {
+      scope.joins(played_question: [:game]).where(played_question: {
         games: {
           quiz_master: user.id
         }

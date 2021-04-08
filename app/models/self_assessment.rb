@@ -6,7 +6,7 @@ class SelfAssessment < ApplicationRecord
   validates :assessment, presence: true
 
   # Relation
-  belongs_to :game_question
+  belongs_to :played_question
   belongs_to :user
 
   def url

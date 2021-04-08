@@ -6,8 +6,8 @@ require 'csv'
 GuessQuestion.destroy_all
 Team.destroy_all
 SelfAssessment.destroy_all
-GameAnswer.destroy_all
-GameQuestion.destroy_all
+PlayedAnswer.destroy_all
+PlayedQuestion.destroy_all
 Game.destroy_all
 Answer.destroy_all
 Question.destroy_all
@@ -135,7 +135,7 @@ if File.exist?(quizzes_path)
 
       2.times do |team_index|
         team = Team.create({
-          name: "#{game.title} — Team #{team_index}",
+          name: "#{game.title} — Team #{team_index + 1}",
           game: game
         })
 
@@ -143,32 +143,32 @@ if File.exist?(quizzes_path)
         team.users << users[team_index*2+1]
       end
 
-      game_question = GameQuestion.create({
+      played_question = PlayedQuestion.create({
         question: game.quiz.categories.sample.questions.sample,
         game: game
       })
 
       users.each do |user|
         self_assessment = SelfAssessment.create({
-          game_question: game_question,
+          played_question: played_question,
           user: user,
-          assessment: rand(1..game_question.question.answers.length)
+          assessment: rand(1..played_question.question.answers.length)
         })
 
-        game_question.self_assessments << self_assessment
+        played_question.self_assessments << self_assessment
       end
 
 
       5.times do
         randomUser = game.users.sample
-        game_answer = GameAnswer.create({
+        played_answer = PlayedAnswer.create({
           user: randomUser,
-          answer: game_question.question.answers.sample,
-          game_question: game_question
+          answer: played_question.question.answers.sample,
+          played_question: played_question
         })
 
-        game_question.winner = randomUser
-        game_question.game_answers << game_answer
+        played_question.winner = randomUser
+        played_question.played_answers << played_answer
       end
     end
   end

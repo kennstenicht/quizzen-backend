@@ -10,21 +10,8 @@ Rails.application.routes.draw do
       resources :questions, only: %i[index]
       resources :users, only: %i[show]
     end
-    resources :game_answers do
-      resources :answers, only: %i[show]
-      resources :users, only: %i[show]
-      resources :game_questions, only: %i[show]
-    end
-    resources :game_questions do
-      resources :games, only: %i[show]
-      resources :game_answers, only: %i[index]
-      resources :guess_questions, only: %i[show]
-      resources :questions, only: %i[show]
-      resources :self_assessments, only: %i[index]
-      resources :users, only: %i[show]
-    end
     resources :games do
-      resources :game_questions, only: %i[index]
+      resources :played_questions, only: %i[index]
       resources :guess_questions, only: %i[show]
       resources :quizzes, only: %i[show]
       resources :users, only: %i[index show]
@@ -32,12 +19,26 @@ Rails.application.routes.draw do
     end
     resources :guess_questions do
       resources :games, only: %i[index]
-      resources :game_questions, only: %i[index]
+      resources :played_questions, only: %i[index]
+      resources :users, only: %i[show]
+    end
+    resources :played_answers do
+      resources :answers, only: %i[show]
+      resources :played_questions, only: %i[show]
+      resources :users, only: %i[show]
+    end
+    resources :played_questions do
+      resources :games, only: %i[show]
+      resources :guess_questions, only: %i[show]
+      resources :played_answers, only: %i[index]
+      resources :questions, only: %i[show]
+      resources :self_assessments, only: %i[index]
       resources :users, only: %i[show]
     end
     resources :quizzes do
-      resources :games, only: %i[index]
       resources :categories, only: %i[index]
+      resources :categories_quizzes, only: %i[index]
+      resources :games, only: %i[index]
       resources :users, only: %i[show]
     end
     resources :questions do
@@ -46,7 +47,7 @@ Rails.application.routes.draw do
       resources :users, only: %i[show]
     end
     resources :self_assessments do
-      resources :game_questions, only: %i[show]
+      resources :played_questions, only: %i[show]
       resources :users, only: %i[show]
     end
     resources :teams do

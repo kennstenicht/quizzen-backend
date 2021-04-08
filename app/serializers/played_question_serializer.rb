@@ -1,26 +1,26 @@
 # frozen_string_literal: true
 
 # Serializer for game questions
-class GameQuestionSerializer < ApplicationSerializer
+class PlayedQuestionSerializer < ApplicationSerializer
   # Relations
   belongs_to :game, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |record|
-      url_helpers.v1_game_question_game_url(record.id, record.game.id)
+      url_helpers.v1_played_question_game_url(record.id, record.game.id)
     end
   }
 
-  has_many :game_answers, lazy_load_data: true, links: {
+  has_many :played_answers, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |record|
-      url_helpers.v1_game_question_game_answers_url(record.id)
+      url_helpers.v1_played_question_played_answers_url(record.id)
     end
   }
 
   belongs_to :guess_question, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |record|
-      url_helpers.v1_game_question_guess_question_url(record.id, record.guess_question.id)
+      url_helpers.v1_played_question_guess_question_url(record.id, record.guess_question.id)
     end
   }, if: proc { |record, params|
     record.guess_question
@@ -29,21 +29,23 @@ class GameQuestionSerializer < ApplicationSerializer
   belongs_to :question, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |record|
-      url_helpers.v1_game_question_question_url(record.id, record.question.id)
+      url_helpers.v1_played_question_question_url(record.id, record.question.id)
     end
   }
 
   has_many :self_assessments, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |record|
-      url_helpers.v1_game_question_self_assessments_url(record.id)
+      url_helpers.v1_played_question_self_assessments_url(record.id)
     end
   }
 
   belongs_to :winner, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |record|
-      url_helpers.v1_game_question_user_url(record.id, record.winner.id)
+      url_helpers.v1_played_question_user_url(record.id, record.winner.id)
     end
+  }, if: proc { |record, params|
+    record.winner
   }
 end

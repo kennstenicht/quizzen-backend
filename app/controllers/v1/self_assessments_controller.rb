@@ -10,7 +10,7 @@ module V1
     def index
       authorize SelfAssessment
 
-      parent = find_parent(%w[game_question])
+      parent = find_parent(%w[played_question])
       self_assessments = parent ? parent.self_assessments : policy_scope(SelfAssessment)
 
       allowed = %i[assessment]
