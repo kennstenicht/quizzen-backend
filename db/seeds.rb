@@ -145,7 +145,8 @@ if File.exist?(quizzes_path)
 
       played_question = PlayedQuestion.create({
         question: game.quiz.categories.sample.questions.sample,
-        game: game
+        game: game,
+        winner: game.users.sample
       })
 
       users.each do |user|

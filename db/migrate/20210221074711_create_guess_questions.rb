@@ -11,8 +11,5 @@ class CreateGuessQuestions < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-
-    add_reference :games, :guess_question, foreign_key: true, type: :uuid
-    add_reference :played_questions, :guess_question, foreign_key: true, type: :uuid
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_21_074711) do
+ActiveRecord::Schema.define(version: 2021_04_05_133558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -36,41 +36,25 @@ ActiveRecord::Schema.define(version: 2021_02_21_074711) do
   end
 
   create_table "categories_questions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "position"
     t.uuid "category_id"
     t.uuid "question_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["category_id"], name: "index_categories_questions_on_category_id"
+    t.index ["position"], name: "index_categories_questions_on_position"
     t.index ["question_id"], name: "index_categories_questions_on_question_id"
   end
 
   create_table "categories_quizzes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "position"
     t.uuid "category_id"
     t.uuid "quiz_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["category_id"], name: "index_categories_quizzes_on_category_id"
+    t.index ["position"], name: "index_categories_quizzes_on_position"
     t.index ["quiz_id"], name: "index_categories_quizzes_on_quiz_id"
-  end
-
-  create_table "game_answers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "answer_id"
-    t.uuid "game_question_id"
-    t.uuid "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["answer_id"], name: "index_game_answers_on_answer_id"
-    t.index ["game_question_id"], name: "index_game_answers_on_game_question_id"
-    t.index ["user_id"], name: "index_game_answers_on_user_id"
-  end
-
-  create_table "game_questions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "game_id"
-    t.uuid "question_id"
-    t.uuid "winner_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.uuid "guess_question_id"
-    t.index ["game_id"], name: "index_game_questions_on_game_id"
-    t.index ["guess_question_id"], name: "index_game_questions_on_guess_question_id"
-    t.index ["question_id"], name: "index_game_questions_on_question_id"
-    t.index ["winner_id"], name: "index_game_questions_on_winner_id"
   end
 
   create_table "games", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -81,8 +65,6 @@ ActiveRecord::Schema.define(version: 2021_02_21_074711) do
     t.uuid "quiz_master_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.uuid "guess_question_id"
-    t.index ["guess_question_id"], name: "index_games_on_guess_question_id"
     t.index ["quiz_id"], name: "index_games_on_quiz_id"
     t.index ["quiz_master_id"], name: "index_games_on_quiz_master_id"
   end
@@ -106,6 +88,55 @@ ActiveRecord::Schema.define(version: 2021_02_21_074711) do
     t.index ["owner_id"], name: "index_guess_questions_on_owner_id"
   end
 
+  create_table "played_answers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "position"
+    t.uuid "answer_id"
+    t.uuid "played_question_id"
+    t.uuid "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["answer_id"], name: "index_played_answers_on_answer_id"
+    t.index ["played_question_id"], name: "index_played_answers_on_played_question_id"
+    t.index ["position"], name: "index_played_answers_on_position"
+    t.index ["user_id"], name: "index_played_answers_on_user_id"
+  end
+
+  create_table "played_guess_question_answers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.float "answer"
+    t.uuid "played_guess_question_id"
+    t.uuid "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["played_guess_question_id"], name: "index_played_guess_question_answers_on_played_guess_question_id"
+    t.index ["user_id"], name: "index_played_guess_question_answers_on_user_id"
+  end
+
+  create_table "played_guess_questions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "game_id"
+    t.uuid "played_question_id"
+    t.uuid "guess_question_id"
+    t.uuid "winner_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_played_guess_questions_on_game_id"
+    t.index ["guess_question_id"], name: "index_played_guess_questions_on_guess_question_id"
+    t.index ["played_question_id"], name: "index_played_guess_questions_on_played_question_id"
+    t.index ["winner_id"], name: "index_played_guess_questions_on_winner_id"
+  end
+
+  create_table "played_questions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "position"
+    t.uuid "game_id"
+    t.uuid "question_id"
+    t.uuid "winner_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_played_questions_on_game_id"
+    t.index ["position"], name: "index_played_questions_on_position"
+    t.index ["question_id"], name: "index_played_questions_on_question_id"
+    t.index ["winner_id"], name: "index_played_questions_on_winner_id"
+  end
+
   create_table "questions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "date"
     t.string "label"
@@ -126,11 +157,11 @@ ActiveRecord::Schema.define(version: 2021_02_21_074711) do
 
   create_table "self_assessments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "assessment"
-    t.uuid "game_question_id"
+    t.uuid "played_question_id"
     t.uuid "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["game_question_id"], name: "index_self_assessments_on_game_question_id"
+    t.index ["played_question_id"], name: "index_self_assessments_on_played_question_id"
     t.index ["user_id"], name: "index_self_assessments_on_user_id"
   end
 
@@ -165,22 +196,26 @@ ActiveRecord::Schema.define(version: 2021_02_21_074711) do
   add_foreign_key "categories_questions", "questions"
   add_foreign_key "categories_quizzes", "categories"
   add_foreign_key "categories_quizzes", "quizzes"
-  add_foreign_key "game_answers", "answers"
-  add_foreign_key "game_answers", "game_questions"
-  add_foreign_key "game_answers", "users"
-  add_foreign_key "game_questions", "games"
-  add_foreign_key "game_questions", "guess_questions"
-  add_foreign_key "game_questions", "questions"
-  add_foreign_key "game_questions", "users", column: "winner_id"
-  add_foreign_key "games", "guess_questions"
   add_foreign_key "games", "quizzes"
   add_foreign_key "games", "users", column: "quiz_master_id"
   add_foreign_key "games_users", "games"
   add_foreign_key "games_users", "users"
   add_foreign_key "guess_questions", "users", column: "owner_id"
+  add_foreign_key "played_answers", "answers"
+  add_foreign_key "played_answers", "played_questions"
+  add_foreign_key "played_answers", "users"
+  add_foreign_key "played_guess_question_answers", "played_guess_questions"
+  add_foreign_key "played_guess_question_answers", "users"
+  add_foreign_key "played_guess_questions", "games"
+  add_foreign_key "played_guess_questions", "guess_questions"
+  add_foreign_key "played_guess_questions", "played_questions"
+  add_foreign_key "played_guess_questions", "users", column: "winner_id"
+  add_foreign_key "played_questions", "games"
+  add_foreign_key "played_questions", "questions"
+  add_foreign_key "played_questions", "users", column: "winner_id"
   add_foreign_key "questions", "users", column: "owner_id"
   add_foreign_key "quizzes", "users", column: "owner_id"
-  add_foreign_key "self_assessments", "game_questions"
+  add_foreign_key "self_assessments", "played_questions"
   add_foreign_key "self_assessments", "users"
   add_foreign_key "teams", "games"
   add_foreign_key "teams_users", "teams"

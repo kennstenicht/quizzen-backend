@@ -11,8 +11,8 @@ Rails.application.routes.draw do
       resources :users, only: %i[show]
     end
     resources :games do
+      resources :played_guess_questions, only: %i[index]
       resources :played_questions, only: %i[index]
-      resources :guess_questions, only: %i[show]
       resources :quizzes, only: %i[show]
       resources :users, only: %i[index show]
       resources :teams, only: %i[index]
@@ -27,10 +27,21 @@ Rails.application.routes.draw do
       resources :played_questions, only: %i[show]
       resources :users, only: %i[show]
     end
+    resources :played_guess_question_answers do
+      resources :users, only: %i[show]
+      resources :played_guess_questions, only: %i[show]
+    end
+    resources :played_guess_questions do
+      resources :game, only: %i[show]
+      resources :guess_question, only: %i[show]
+      resources :played_questioj, only: %i[show]
+      resources :played_guess_question_answers, only: %i[index]
+      resources :users, only: %i[show]
+    end
     resources :played_questions do
       resources :games, only: %i[show]
-      resources :guess_questions, only: %i[show]
       resources :played_answers, only: %i[index]
+      resources :played_guess_questions, only: %i[show]
       resources :questions, only: %i[show]
       resources :self_assessments, only: %i[index]
       resources :users, only: %i[show]
