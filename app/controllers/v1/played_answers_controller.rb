@@ -13,7 +13,7 @@ module V1
       parent = find_parent(%w[played_question])
       played_answers = parent ? parent.played_answers : policy_scope(PlayedAnswer)
 
-      allowed = %i[quiz_master search]
+      allowed = %i[user]
 
       jsonapi_filter(policy_scope(played_answers), allowed) do |filtered|
         jsonapi_paginate(filtered.result) do |paginated|
@@ -32,7 +32,6 @@ module V1
     # POST /played_answers
     def create
       @played_answer = PlayedAnswer.new(@params_deserialized)
-      @played_answer.quiz_master = current_user
 
       authorize @played_answer
 
