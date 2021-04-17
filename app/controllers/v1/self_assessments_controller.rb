@@ -70,7 +70,7 @@ module V1
     end
 
     def deserialize_params
-      params_only = %i[assessment question user]
+      params_only = %i[assessment question user is_false_assessment]
 
       @params_deserialized = jsonapi_deserialize(params, only: params_only)
     end

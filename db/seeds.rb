@@ -14,6 +14,8 @@ Question.destroy_all
 Category.destroy_all
 Quiz.destroy_all
 User.destroy_all
+GuessQuestion.destroy_all
+PlayedGuessQuestion.destroy_all
 
 # Users
 users = User.create([
@@ -144,9 +146,8 @@ if File.exist?(quizzes_path)
       end
 
       played_question = PlayedQuestion.create({
-        question: game.quiz.categories.sample.questions.sample,
+        question: game.quiz.categories.first.questions.first,
         game: game,
-        winner: game.users.sample
       })
 
       users.each do |user|

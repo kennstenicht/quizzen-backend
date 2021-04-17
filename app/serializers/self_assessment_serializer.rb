@@ -3,7 +3,7 @@
 # Serializer for self assessment
 class SelfAssessmentSerializer < ApplicationSerializer
   # Attrbiutes
-  attributes :assessment
+  attributes :assessment, :is_false_assessment
 
 
   # Relations

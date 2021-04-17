@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(version: 2021_04_05_133558) do
 
   create_table "self_assessments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "assessment"
+    t.boolean "is_false_assessment", default: false
     t.uuid "played_question_id"
     t.uuid "user_id"
     t.datetime "created_at", precision: 6, null: false
