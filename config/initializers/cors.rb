@@ -12,6 +12,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     origins 'localhost:3000',
             'localhost:4100',
             'https://quizzen.herokuapp.com',
+            'https://quizzen.netlify.app',
             'https://staging.quizzen.jetzt',
             'https://www.quizzen.jetzt'
 
