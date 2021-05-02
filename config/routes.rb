@@ -11,7 +11,6 @@ Rails.application.routes.draw do
       resources :users, only: %i[show]
     end
     resources :games do
-      resources :played_guess_questions, only: %i[index]
       resources :played_questions, only: %i[index]
       resources :quizzes, only: %i[show]
       resources :users, only: %i[index show]

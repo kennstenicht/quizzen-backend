@@ -55,18 +55,6 @@ class GameSerializer < ApplicationSerializer
     params[:current_user] && (is_player || is_quiz_master)
   }
 
-  has_many :played_guess_questions, lazy_load_data: true, links: {
-    self: :url,
-    related: lambda do |record|
-      url_helpers.v1_game_played_guess_questions_url(record.id)
-    end
-  }, if: proc { |record, params|
-    is_player = record.users.include?(params[:current_user])
-    is_quiz_master = record.quiz_master === params[:current_user]
-
-    params[:current_user] && (is_player || is_quiz_master)
-  }
-
   has_many :teams, lazy_load_data: true, links: {
     self: :url,
     related: lambda do |record|
