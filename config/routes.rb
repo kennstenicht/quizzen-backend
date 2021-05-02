@@ -40,7 +40,7 @@ Rails.application.routes.draw do
     resources :played_questions do
       resources :games, only: %i[show]
       resources :played_answers, only: %i[index]
-      resources :played_guess_questions, only: %i[show]
+      resources :played_guess_questions, only: %i[index]
       resources :questions, only: %i[show]
       resources :self_assessments, only: %i[index]
       resources :users, only: %i[show]

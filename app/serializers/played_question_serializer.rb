@@ -17,7 +17,7 @@ class PlayedQuestionSerializer < ApplicationSerializer
 
   has_many :played_guess_questions, links: {
     related: lambda do |record|
-      url_helpers.v1_game_played_guess_questions_url(record.id)
+      url_helpers.v1_played_question_played_guess_questions_url(record.id)
     end
   }
 
