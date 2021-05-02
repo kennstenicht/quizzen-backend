@@ -15,8 +15,7 @@ class GameSerializer < ApplicationSerializer
 
 
   # Relations
-  belongs_to :quiz, lazy_load_data: true, links: {
-    self: :url,
+  belongs_to :quiz, links: {
     related: lambda do |record|
       url_helpers.v1_game_quiz_url(record.id, record.quiz.id)
     end
@@ -24,15 +23,13 @@ class GameSerializer < ApplicationSerializer
     params[:current_user] && record.quiz_master === params[:current_user]
   }
 
-  belongs_to :quiz_master, lazy_load_data: true, links: {
-    self: :url,
+  belongs_to :quiz_master, serializer: :user, links: {
     related: lambda do |record|
       url_helpers.v1_game_user_url(record.id, record.quiz_master.id)
     end
   }
 
-  has_many :users, lazy_load_data: true, links: {
-    self: :url,
+  has_many :users, links: {
     related: lambda do |record|
       url_helpers.v1_game_users_url(record.id)
     end
@@ -43,8 +40,7 @@ class GameSerializer < ApplicationSerializer
     params[:current_user] && (is_player || is_quiz_master)
   }
 
-  has_many :played_questions, lazy_load_data: true, links: {
-    self: :url,
+  has_many :played_questions, links: {
     related: lambda do |record|
       url_helpers.v1_game_played_questions_url(record.id)
     end
@@ -55,8 +51,7 @@ class GameSerializer < ApplicationSerializer
     params[:current_user] && (is_player || is_quiz_master)
   }
 
-  has_many :teams, lazy_load_data: true, links: {
-    self: :url,
+  has_many :teams, links: {
     related: lambda do |record|
       url_helpers.v1_game_teams_url(record.id)
     end

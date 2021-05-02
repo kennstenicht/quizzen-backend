@@ -9,8 +9,7 @@ class GuessQuestionSerializer < ApplicationSerializer
 
 
   # Relations
-  belongs_to :owner, lazy_load_data: true, links: {
-    self: :url,
+  belongs_to :owner, serializer: :user, links: {
     related: lambda do |object|
       url_helpers.v1_guess_question_user_url(object.id, object.owner.id)
     end
