@@ -65,6 +65,8 @@ Rails.application.routes.draw do
       resources :games, only: %i[show]
       resources :users, only: %i[index]
     end
-    resources :users
+    resources :users do
+      resources :teams, only: %i[index]
+    end
   end
 end
