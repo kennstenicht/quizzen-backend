@@ -3,6 +3,7 @@
 # Serializer for team
 class TeamSerializer < ApplicationSerializer
   # Attrbiutes
+  attributes :color
   attributes :name
 
 

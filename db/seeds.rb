@@ -137,6 +137,7 @@ if File.exist?(quizzes_path)
 
       2.times do |team_index|
         team = Team.create({
+          color: ['#a5cebf', '#bb8bba', '#8c87ca'][team_index],
           name: "#{game.title} — Team #{team_index + 1}",
           game: game
         })
