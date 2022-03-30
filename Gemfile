@@ -7,7 +7,7 @@ ruby '2.7.3'
 
 # Rails and database
 gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '~> 3.7'
+gem 'puma', '~> 4.3'
 gem 'rails', '~> 6.1.0'
 
 # API
